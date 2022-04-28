@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="title">Welcome, {{login}}!</h1>
+    <h1 class="title">History</h1>
+    <ol>
+        {% for operation in all_operations %}
+        <li>
+            {{operation.type}} <br/>
+            Currency {{operation.currency}} <br/>
+            Count    {{operation.count}} <br/>
+            Rate     {{operation.rate}} <br/>
+            Money    {{operation.money}} money <br/>
+            ---------------------------------- <br/>
+        </li>
+        {% endfor %}
+    </ol>
+{% endblock %}

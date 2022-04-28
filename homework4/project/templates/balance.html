@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="title">Welcome, {{login}}!</h1>
+    <h1 class="title">Balance</h1>
+    <p>You have {{money}} money</p>
+        {% for currency in currencies %}
+        <li>
+            Currency     {{currency.name.upper()}} <br/>
+            Count        {{currency.count}} <br/>
+            Current rate {{currency.rate}} <br/>
+            <form action=/sell method="post">
+                <label for="count">Count to sell</label>
+                <input type="text" name="count">
+                <input class="button is-small" type="submit" value="Submit">
+                <input type="hidden" name="name" readonly value={{currency.name}}>
+                <input type="hidden" name="rate" readonly value={{currency.rate}}>
+            </form>
+            ----------------------------------
+        </li>
+        {% endfor %}
+{% endblock %}

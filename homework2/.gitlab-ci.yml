@@ -1,0 +1,45 @@
+image: python:3.9
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  paths:
+    - .cache/pip
+    - .venv/
+
+before_script:
+  - python -V
+  - python -m venv .venv
+  - source .venv/bin/activate
+  - python -m pip install --upgrade pip $(if [ -n "$PYPI_TINKOFF" ]; then echo "--index-url $PYPI_TINKOFF"; fi)
+  - python -m pip install poetry $(if [ -n "$PYPI_TINKOFF" ]; then echo "--index-url $PYPI_TINKOFF"; fi)
+  - |+
+    if [ -n "$PYPI_TINKOFF" ]; then
+    python -c """
+    from pathlib import Path
+    file = Path('pyproject.toml').read_text().splitlines()
+    index = file.index('')
+    result = file[:index] + ['[[tool.poetry.source]]', 'name = \"tinkoff\"', 'url = \"${PYPI_TINKOFF}\"', 'default = true'] + file[index:]
+    Path('pyproject.toml').write_text('\n'.join(result))
+    """ ;
+    fi
+  - poetry install
+
+stages:
+  - lint
+  - test
+
+lint:
+  allow_failure: true
+  stage: lint
+  script:
+    - flake8 --jobs 4 --statistics --show-source tests app
+    - pylint --jobs 4 --rcfile=setup.cfg tests app
+    - mypy tests app
+    - black --skip-string-normalization --check tests app
+
+test:
+  stage: test
+  script:
+    - pytest -v tests
