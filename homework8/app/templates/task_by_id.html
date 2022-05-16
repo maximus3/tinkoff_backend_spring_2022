@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1 class="title">{{ contest.name }}</h1>
+
+    <div class="columns">
+        <div class="column is-four-fifths">
+            <h2 class="subtitle has-text-left">{{ uc_problem.contest_problem.order }}. {{ uc_problem.problem.name }}</h2>
+
+
+            <div class="content">
+                <p class="p">{{ uc_problem.problem.description }}</p>
+            </div>
+
+            <h2 class="subtitle has-text-left">Input format</h2>
+
+            <div class="content">
+                <p class="p">{{ uc_problem.problem.input }}</p>
+            </div>
+
+            <h2 class="subtitle has-text-left">Output format</h2>
+            <div class="content">
+                <p class="p">{{ uc_problem.problem.output }}</p>
+            </div>
+
+            <h2 class="subtitle has-text-left">Solution</h2>
+            <div class="control">
+                <form method="POST" action="{{ url_for('contests.submit', contest_id=contest.id, order=uc_problem.contest_problem.order) }}">
+                    <textarea class="textarea" name="code" placeholder="Python code here"></textarea>
+                    <button class="button is-link" type="submit">Submit</button>
+                </form>
+            </div>
+
+            <h2 class="subtitle has-text-left">Submissions</h2>
+            <div class="content">
+                <table class="table is-striped is-hoverable is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Status</th>
+                            <th>Score</th>
+                            <th>Language</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ucp_solution in ucp_solutions %}
+                            <tr>
+                                <td>{{ ucp_solution.id }}</td>
+                                <td>{{ ucp_solution.status }}</td>
+                                <td>{{ ucp_solution.score }}</td>
+                                <td>Python</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="column">
+            <p class="content">
+                All score: {{ user_contest.score }}
+            </p>
+            <p class="content">
+                Problems:
+            </p>
+            {% for iter_uc_problem in all_uc_problems %}
+                <ul>
+                    <li>
+                        <form action="{{ url_for('contests.task_by_id', contest_id=contest.id, order=iter_uc_problem.contest_problem.order) }}">
+                            <button class="button is-primary">{{ iter_uc_problem.contest_problem.order }}. {{ iter_uc_problem.problem.name }} ({{ iter_uc_problem.status }})</button>
+                        </form>
+                    </li>
+                </ul>
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock %}

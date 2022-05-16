@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if not current_user.is_authenticated %}
+        {% include "login.html" %}
+    {% else %}
+        <h1 class="title">Welcome, {{login}}!</h1>
+
+        {% if user_contests %}
+        <h1 class="subtitle">Your contests:</h1>
+        <ul>
+            {% for u_contest in user_contests %}
+                <li>
+                    <form action="{{ url_for('contests.contest_by_id', contest_id=u_contest.contest_id) }}">
+                        <button class="button is-primary">{{ u_contest.contest.name }} - score {{ u_contest.score }}</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>You haven't participated in any contests yet.</p>
+        {% endif %}
+    {% endif %}
+
+{% endblock %}

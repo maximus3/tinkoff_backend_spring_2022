@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1 class="title">Available contests</h1>
+
+    <div class="column is-4 is-offset-4">
+        <ul>
+            {% for contest in contests %}
+                <li>
+                    <form action="{{ url_for('contests.contest_by_id', contest_id=contest.id) }}">
+                        <button class="button is-primary">{{ contest.name }}</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}

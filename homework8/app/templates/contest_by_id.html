@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1 class="title">{{ contest.name }}</h1>
+
+    <div class="content">
+        {{ contest.description }}
+    </div>
+
+    {% if user_contest is none %}
+    <div class="column is-4 is-offset-4">
+        <form method="POST" action="{{ url_for('contests.registration', contest_id=contest.id) }}">
+            <button class="button is-block is-info is-large is-fullwidth">Registration</button>
+        </form>
+    </div>
+    {% else %}
+    <div class="columns">
+        <div class="column is-four-fifths">
+            <p class="content">
+                Your score: {{ user_contest.score }}
+            </p>
+        </div>
+        <div class="column">
+            <p class="content">
+                All score: {{ user_contest.score }}
+            </p>
+            <p class="content">
+                Problems:
+            </p>
+            {% for iter_uc_problem in uc_problems %}
+                <ul>
+                    <li>
+                        <form action="{{ url_for('contests.task_by_id', contest_id=contest.id, order=iter_uc_problem.contest_problem.order) }}">
+                            <button class="button is-primary">{{ iter_uc_problem.contest_problem.order }}. {{ iter_uc_problem.problem.name }} ({{ iter_uc_problem.status }})</button>
+                        </form>
+                    </li>
+                </ul>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+{% endblock %}

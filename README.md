@@ -9,4 +9,4 @@ Here you can find my homework of Tinkoff Fintech Python-backend:
 * homework5 - Movie Rating Service
 * homework6 - image resizer
 * homework7 - Async Chat
-* Final project - 
+* homework8 (final project) - Programming contest

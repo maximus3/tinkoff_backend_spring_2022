@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "Programming contest"
+version = "0.1.0"
+description = "Programming contest service"
+authors = []
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pydantic = {extras = ["dotenv"], version = "^1.9.0"}
+SQLAlchemy = "^1.4.34"
+Flask = "^2.1.2"
+Flask-Login = "^0.6.1"
+rq = "^1.10.1"
+
+[tool.poetry.dev-dependencies]
+black = "^22.1.0"
+autoflake = "^1.4"
+isort = "^5.10.1"
+unify = "^0.5"
+flake8 = "^4.0.1"
+pylint = "^2.12.2"
+mypy = "^0.941"
+safety = "^1.10.3"
+pytest = "^7.1.0"
+pytest-cov = "^3.0.0"
+pytest-deadfixtures = "^2.2.1"
+pytest-mock = "^3.7.0"
+types-redis = "^4.2.2"
+fakeredis = "^1.7.4"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
